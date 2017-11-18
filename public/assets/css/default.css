@@ -1,0 +1,58 @@
+.send {
+    float: right;
+    width: 100%;
+}
+.tap_btn {
+    float: center;
+    width: 100%;
+}
+
+.input_text {
+    float: right;
+    width: 100%;
+}
+
+.result_button {
+    width: auto;
+
+}
+.result{
+	border: 3px solid #f1f1f1;
+	font-size: 20px;
+}
+
+.ss {
+    height: auto;
+}
+
+@media (max-width: 992px){
+    .ss{
+        height: 135px;
+    }
+    .tap_btn{
+    	height: 100px;
+    }
+}
+
+h2 {
+    text-align: center;
+    border: 3px solid #f1f1f1;
+}
+
+.final {
+    color: black;
+    padding-right: 3px; 
+}
+
+.interim {
+    color: gray;
+}
+
+#results {
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: left;
+    min-height: 150px;
+}

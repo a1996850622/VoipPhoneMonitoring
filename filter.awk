@@ -1,0 +1,11 @@
+BEGIN{
+	seq_num=-1;
+	#seq_num1=-1;
+}
+{
+	if($1>seq_num){
+		seq_num=$1;
+		#printf("%s\n",$1);
+		printf("%s\n",$2);
+	}		
+}

@@ -1,0 +1,109 @@
+doctype html
+html
+	head
+		title= 'VoIP Monitor'
+		script(src='modules/jquery-3.1.1.min.js')
+		script(src='modules/bootstrap/js/bootstrap.min.js')
+		script(src='modules/socket.io.min.js')
+		script(src='assets/js/script.js')
+		link(rel='stylesheet', href='modules/bootstrap/css/bootstrap.min.css')
+		link(rel='stylesheet', href='modules/bootstrap/css/bootstrap-theme.min.css')
+		link(rel='stylesheet', href='assets/css/default.css')
+	body
+		nav.navbar.navbar-inverse(role='navigation')
+			.container-fluid
+				.navbar-header
+					a.navbar-brand(style='margin:10px; font-size:40px;') 網路電話監控平台
+				div(style='float:right')
+					ul.nav.navbar-nav
+						li
+							a(href='/database', style='margin:10px; font-size:20px;') 
+								span.glyphicon.glyphicon-book 資料庫
+						li
+							a(href='/signout', style='margin:10px; font-size:20px;') 
+								span.glyphicon.glyphicon-log-out 登出
+						li
+							a(style='margin:10px; font-size:20px;')
+								span.glyphicon.glyphicon-user #{'使用者'+username}
+
+
+		//div(style='float:right')
+			ul.pager
+				li
+					if(username && authenticated)
+						a(href='/database', style='margin:10px; font-size:20px;') 資料庫
+						a(href='/signout', style='margin:10px; font-size:20px;') 登出
+						span(style='font-size:20px;') #{' 使用者: '+username}
+
+		.container
+			//.page-header
+				h1.text-danger(style='text-align:center;') 網路電話監控平台
+			.row.form-horizontal
+				.col-xs-8
+					.row
+						.col-md-6.form-group
+							label.control-label.col-md-2 IP
+							.col-md-10
+								input#ip_input.input_text.form-control(type='text', value='192.168.43.1/24', placeholder='Enter IP Address or URL')
+						.col-md-6.form-group
+							label.control-label.col-md-2 PORT
+							.col-md-10
+								input#port1.input_text.form-control(type='number', value='5060', placeholder='Enter Port number')
+				.col-xs-3.ss
+					button.send.btn.btn-info.ss(onclick='start()')
+						span.glyphicon.glyphicon-eye-open 掃描網域
+			.row
+				.col-xs-8
+					div.panel.panel-danger
+						div.panel-heading
+							h3.panel-title 網域掃描結果
+						div.panel-body(style='height:150px;')#chatlog.chatlog
+
+					//div(style='height:150px; border:1px solid gray;')
+						h4.text-info(style='text-align:center;') 選取監控對象
+						#chatlog.chatlog
+				.col-xs-3.tap_btn_area
+					div(style='padding:20px;green;opacity:0.0;')
+					button.btn.btn-warning.tap_btn.start_tap
+						span.glyphicon.glyphicon-headphones 開始監聽!
+					div(style='padding:5px;green;opacity:0.0;')
+					button.btn.btn-warning.tap_btn.stop_tap 
+						span.glyphicon.glyphicon-pause 停止監聽!
+					div(style='padding:5px;green;opacity:0.0;')
+					button.btn.btn-success.tap_btn.download(onclick="location.href='/download'")
+						span.glyphicon.glyphicon-save 下載音訊
+				.col-xs-8
+					div.panel.panel-info
+						div.panel-heading
+							h3.panel-title 語音辨識結果
+						div.panel-body(style='height:150px;')
+							span#textBox.final(value='hello')
+							span#interm.interim
+							p
+
+					//#results
+						span#textBox.final(value='hello')
+						span#interm.interim
+						p
+
+				.col-xs-3.tap_btn_area
+					div(style='padding:20px;green;opacity:0.0;')
+					input#recognition1.btn.btn-warning.tap_btn.recognition1(value='辨識音訊檔', onclick='startButton(event)')
+					div(style='padding:5px;green;opacity:0.0;')
+					button.btn.btn-success.tap_btn.download2(onclick="location.href='/download2'")
+						span.glyphicon.glyphicon-save 下載辨識文本
+
+			.row
+				.col-xs-5
+					form
+						.form-group
+							label(for='sell') 選擇語言
+							select.form-control#langCombo
+								option(value='en-US') 英文（美國）
+								option(value='en-GB') 英文（英國）
+								option(value='en-AU') 英文（澳洲）
+								option(value='cmn-Hant-TW') 中文（台灣） 
+								option(value='cmn-Hans-CN') 普通話（中國大陸）
+								option(value='yue-Hant-HK') 粵語（香港）
+
+					label#infoBox

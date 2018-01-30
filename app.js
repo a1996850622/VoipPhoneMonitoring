@@ -119,6 +119,7 @@ io.sockets.on('connection', function(socket) {
     var dirname;
     var table_name;
     
+    /* 接收前端傳來的 IP & PORT */
     socket.on('message_to_server', function(data) {
         var ip_msg = data["IPmessage"];
         port_msg = data["PORTmessage"];
@@ -130,8 +131,7 @@ io.sockets.on('connection', function(socket) {
 
         console.log(data);
 
-        
-
+	/* 針對前端客戶欲掃描的網域進行掃描 */
         nmap.scan(opts, function(err, report) {
             if (err) throw new Error(err);
 
@@ -168,6 +168,7 @@ io.sockets.on('connection', function(socket) {
         
     });
 
+    /* 當前端按下開始監聽即運行此函數 */
     socket.on('tap_on', function(data) {
         datetime = new Date().toISOString().replace(/T/, '_').replace(/\..+/,'');
         //console.log(datetime);
@@ -181,6 +182,7 @@ io.sockets.on('connection', function(socket) {
         file_dirname = ip1 + '_' + ip2;
         dirname = datetime;
 
+	// 外部執行 pings.sh 檔案來做監聽封包與還原音訊的動作
         test_run = spawn('./pings.sh', [ip1, ip2, port_msg, file_dirname + '.pcap', datetime]);
         test_run.stdout.setEncoding('utf8');
         test_run.stderr.setEncoding('utf8');

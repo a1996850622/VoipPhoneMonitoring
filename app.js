@@ -21,13 +21,15 @@ var datetime = new Date();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-app.use(express.favicon());
-app.use(express.logger('dev'));
+app.set('views', path.join(__dirname, 'views')); // 將 views 資料夾定為網頁放置處
+app.set('view engine', 'jade'); // 設定網頁形式為 jade
+app.use(express.favicon()); // 網頁圖示
+app.use(express.logger('dev')); // 紀錄所有 HTTP 資訊
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
+
+/* 啟用 cookie-based session 功能 */
 app.configure(function(){
 	// 啟用 cookie 解析器
 	app.use(express.cookieParser());
@@ -39,23 +41,24 @@ app.configure(function(){
 	// 啟用 body 解析器
 	app.use(express.bodyParser());
 });
-app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
 
-// development only
+app.use(app.router); // 啟用路由
+app.use(express.static(path.join(__dirname, 'public'))); // 設定 public 為靜態檔案位置
+
+/* development only */
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
-app.get('/users', user.list);
-app.get('/tap', user.tap);
-app.get('/signout', user.signout);
-app.get('/database', user.database);
+/* 網頁請求與轉發 */
+app.get('/', routes.index); // 登入頁面
+app.get('/tap', user.tap); // 監控頁面
+app.get('/signout', user.signout); // 登出轉發
+app.get('/database', user.database); // 資料庫頁面
 //app.get('/apis/audio/:id', user.audio_download);
 //app.get('/apis/txt/:id', user.txt_download);
 app.get('/apis/delete/:id', user.del_data);
-app.post('/apis/login', user.login);
+app.post('/apis/login', user.login); // 登入轉發
 
 
 app.get('/apis/audio/:id', function(req, res){
@@ -104,8 +107,9 @@ app.get('/apis/txt/:id', function(req, res){
   console.log('Express server listening on port ' + app.get('port'));
 });*/
 
-server.listen(app.get('port')); //server start
+server.listen(app.get('port')); // 啟用伺服器並開啟 port 3000
 
+/* 與前端網頁連線 */
 io.sockets.on('connection', function(socket) {
     var run_copy = null;
     var ip1, ip2, tap_port;
